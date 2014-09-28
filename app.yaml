@@ -6,7 +6,7 @@ threadsafe: true
 
 handlers:
 - url: /
-  upload: index.html
+  upload: \1
   static_files: index.html
   
 - url: /img
