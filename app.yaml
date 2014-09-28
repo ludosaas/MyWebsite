@@ -7,5 +7,9 @@ default_expiration: "1d"
 threadsafe: yes
 
 handlers:
-- url: /.*
-  script: main.go
+- url: /
+  script: main.py
+
+- url: /(.*)
+  static_files: static/\1
+  upload: static/(.*)
