@@ -7,9 +7,5 @@ default_expiration: "1d"
 threadsafe: yes
 
 handlers:
-- url: /(.*)/
-  static_files: \1/index.html
-  upload: .*/index.html
-
 - url: /.*
-  static_dir: static
+  script: main.go
