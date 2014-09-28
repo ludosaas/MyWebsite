@@ -7,10 +7,10 @@ threadsafe: yes
 handlers:
 # re-direct to index.html if no path is give
 - url: /
-  static_files: index.html
-  upload: index.html
+  static_files: /index.html
+  upload: /index.html
 
 # access the static resources in the root director
 - url: /(.*)
   static_files: \1
-  upload: (.*)
+  upload: /(.*)
