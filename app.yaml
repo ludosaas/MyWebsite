@@ -7,14 +7,14 @@ handlers:
 handlers:
 - url: /(.+)/
   static_files: static/\1/index.html
-  upload: static/(.+)/index.html
+  upload: static/HTML/(.+)/index.html
 
 # site root
 - url: /
   static_files: static/index.html
-  upload: static/index.html
+  upload: static/HTML/index.html
 
 # Redirect Everything else
 - url: /(.+)
   static_files: static/\1
-  upload: static/(.+)
+  upload: static/HTML/(.+)
