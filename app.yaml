@@ -1,18 +1,223 @@
-application: sonorous-lyceum-717
-version: 1
-runtime: python27
+application: sonorous-lyceum-717 
+version: 1  
+runtime: python27  
 api_version: 1
+
+default_expiration: "1d"  
 threadsafe: yes
 
-handlers:
-- url: /(.*)
-  static_files: \1
-  upload: (.*)
+handlers:  
+- url: /(.*\.(appcache|manifest))
+  mime_type: text/cache-manifest
+  static_files: website/\1
+  upload: website/(.*\.(appcache|manifest))
+  expiration: "0m"
 
-- url: /
-  static_files: index.html
-  upload: index.html
+- url: /(.*\.atom)
+  mime_type: application/atom+xml
+  static_files: website/\1
+  upload: website/(.*\.atom)
+  expiration: "1h"
 
+- url: /(.*\.crx)
+  mime_type: application/x-chrome-extension
+  static_files: website/\1
+  upload: website/(.*\.crx)
+
+- url: /(.*\.css)
+  mime_type: text/css
+  static_files: website/\1
+  upload: website/(.*\.css)
+
+- url: /(.*\.eot)
+  mime_type: application/vnd.ms-fontobject
+  static_files: website/\1
+  upload: website/(.*\.eot)
+
+- url: /(.*\.htc)
+  mime_type: text/x-component
+  static_files: website/\1
+  upload: website/(.*\.htc)
+
+- url: /(.*\.html)
+  mime_type: text/html
+  static_files: website/\1
+  upload: website/(.*\.html)
+  expiration: "1h"
+
+- url: /(.*\.ico)
+  mime_type: image/x-icon
+  static_files: website/\1
+  upload: website/(.*\.ico)
+  expiration: "7d"
+
+- url: /(.*\.js)
+  mime_type: text/javascript
+  static_files: website/\1
+  upload: website/(.*\.js)
+
+- url: /(.*\.json)
+  mime_type: application/json
+  static_files: website/\1
+  upload: website/(.*\.json)
+  expiration: "1h"
+
+- url: /(.*\.m4v)
+  mime_type: video/m4v
+  static_files: website/\1
+  upload: website/(.*\.m4v)
+
+- url: /(.*\.mp4)
+  mime_type: video/mp4
+  static_files: website/\1
+  upload: website/(.*\.mp4)
+
+- url: /(.*\.(ogg|oga))
+  mime_type: audio/ogg
+  static_files: website/\1
+  upload: website/(.*\.(ogg|oga))
+
+- url: /(.*\.ogv)
+  mime_type: video/ogg
+  static_files: website/\1
+  upload: website/(.*\.ogv)
+
+- url: /(.*\.otf)
+  mime_type: font/opentype
+  static_files: website/\1
+  upload: website/(.*\.otf)
+
+- url: /(.*\.rss)
+  mime_type: application/rss+xml
+  static_files: website/\1
+  upload: website/(.*\.rss)
+  expiration: "1h"
+
+- url: /(.*\.safariextz)
+  mime_type: application/octet-stream
+  static_files: website/\1
+  upload: website/(.*\.safariextz)
+
+- url: /(.*\.(svg|svgz))
+  mime_type: images/svg+xml
+  static_files: website/\1
+  upload: website/(.*\.(svg|svgz))
+
+- url: /(.*\.dae)
+  mime_type: model/vnd.collada+x
+  static_files: website/\1
+  upload: website/(.*\.dae)
+
+- url: /(.*\.DAE)
+  mime_type: model/vnd.collada+x
+  static_files: website/\1
+  upload: website/(.*\.DAE)
+
+- url: /(.*\.ttf)
+  mime_type: font/truetype
+  static_files: website/\1
+  upload: website/(.*\.ttf)
+
+- url: /(.*\.txt)
+  mime_type: text/plain
+  static_files: website/\1
+  upload: website/(.*\.txt)
+
+- url: /(.*\.unity3d)
+  mime_type: application/vnd.unity
+  static_files: website/\1
+  upload: website/(.*\.unity3d)
+
+- url: /(.*\.webm)
+  mime_type: video/webm
+  static_files: website/\1
+  upload: website/(.*\.webm)
+
+- url: /(.*\.webp)
+  mime_type: image/webp
+  static_files: website/\1
+  upload: website/(.*\.webp)
+
+- url: /(.*\.woff)
+  mime_type: application/x-font-woff
+  static_files: website/\1
+  upload: website/(.*\.woff)
+
+- url: /(.*\.xml)
+  mime_type: application/xml
+  static_files: website/\1
+  upload: website/(.*\.xml)
+  expiration: "1h"
+
+- url: /(.*\.xpi)
+  mime_type: application/x-xpinstall
+  static_files: website/\1
+  upload: website/(.*\.xpi)
+
+# image files
+- url: /(.*\.(bmp|gif|ico|jpeg|jpg|png))
+  static_files: website/\1
+  upload: website/(.*\.(bmp|gif|ico|jpeg|jpg|png))
+
+# audio files
+- url: /(.*\.(mid|midi|mp3|wav))
+  static_files: website/\1
+  upload: website/(.*\.(mid|midi|mp3|wav))
+
+# windows files
+- url: /(.*\.(doc|exe|ppt|rtf|xls))
+  static_files: website/\1
+  upload: website/(.*\.(doc|exe|ppt|rtf|xls))
+
+# compressed files
+- url: /(.*\.(bz2|gz|rar|tar|tgz|zip))
+  static_files: website/\1
+  upload: website/(.*\.(bz2|gz|rar|tar|tgz|zip))
+
+# index files
+- url: /(.+)/
+  static_files: website/\1/index.html
+  upload: website/(.+)/index.html
+  expiration: "15m"
+
+- url: /(.+)
+  static_files: website/\1/index.html
+  upload: website/(.+)/index.html
+  expiration: "15m"
+
+# site root
 - url: /
-  static_files: redirect.html
-  upload: redirect.html
+  static_files: website/index.html
+  upload: website/index.html
+  expiration: "15m"
+
+
+skip_files:  
+- ^(.*/)?app\.yaml
+- ^(.*/)?app\.yml
+- ^(.*/)?#.*#
+- ^(.*/)?.*~
+- ^(.*/)?.*\.py[co]
+- ^(.*/)?.*/RCS/.*
+- ^(.*/)?\..*
+- ^(.*/)?tests$
+- ^(.*/)?test$
+- ^test/(.*/)?
+- ^COPYING.LESSER
+- ^README\..*
+- \.gitignore
+- \.gitattributes
+- ^\.git/.*
+- \.*\.lint$
+- ^fabfile\.py
+- ^testrunner\.py
+- ^grunt\.js
+- ^gulpfile\.js
+- ^package\.json
+- ^node_modules/(.*/)?
+- ^gulp/(.*/)?
+- ^.sass-cache/(.*/)?
+- ^.tmp/(.*/)?
+- ^project/(.*/)?
+- \.editorconfig
+- \.jshintrc
