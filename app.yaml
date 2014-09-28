@@ -6,20 +6,10 @@ api_version: 1
 default_expiration: "1d"  
 threadsafe: yes
 
-handlers:  
-# index files
-- url: /(.+)/
-  static_files: index.html
-  upload: index.html
-  expiration: "15m"
+handlers:
+- url: /(.*)/
+  static_files: \1/index.html
+  upload: .*/index.html
 
-- url: /(.+)
-  static_files: index.html
-  upload: index.html
-  expiration: "15m"
-
-# site root
-- url: /
-  static_files: index.html
-  upload: index.html
-  expiration: "15m"
+- url: /.*
+  static_dir: static
