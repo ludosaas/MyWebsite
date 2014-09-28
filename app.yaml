@@ -5,9 +5,9 @@ api_version: 1
 threadsafe: yes
 
 handlers:
-- url: /(.+)
+- url: /(.*)
   static_files: \1
-  upload: (.+)
+  upload: (.*)
 
 - url: /
   static_files: index.html
