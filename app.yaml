@@ -4,16 +4,9 @@ runtime: python
 api_version: 1
 
 handlers:
-- url: /(.+)/
-  static_files: static/\1/index.html
-  upload: static/HTML/(.+)/index.html
+- url: (.*)/
+  static_files: static\1/index.html
+  upload: static/index.html
 
-# site root
 - url: /
-  static_files: static/index.html
-  upload: static/HTML/index.html
-
-# Redirect Everything else
-- url: /(.+)
-  static_files: static/\1
-  upload: static/HTML/(.+)
+  static_dir: static
