@@ -7,38 +7,6 @@ default_expiration: "1d"
 threadsafe: yes
 
 handlers:  
-- url: /(.*\.css)
-  mime_type: text/css
-  static_files: \1
-  upload: (.*\.css)
-
-- url: /(.*\.html)
-  mime_type: text/html
-  static_files: \1
-  upload: (.*\.html)
-  expiration: "1h"
-
-- url: /(.*\.ico)
-  mime_type: image/x-icon
-  static_files: \1
-  upload: (.*\.ico)
-  expiration: "7d"
-
-- url: /(.*\.js)
-  mime_type: text/javascript
-  static_files: \1
-  upload: (.*\.js)
-
-- url: /(.*\.txt)
-  mime_type: text/plain
-  static_files: \1
-  upload: (.*\.txt)
-
-# image files
-- url: /(.*\.(bmp|gif|ico|jpeg|jpg|png))
-  static_files: \1
-  upload: (.*\.(bmp|gif|ico|jpeg|jpg|png))
-
 # index files
 - url: /(.+)/
   static_files: index.html
@@ -55,34 +23,3 @@ handlers:
   static_files: index.html
   upload: index.html
   expiration: "15m"
-
-
-skip_files:  
-- ^(.*/)?app\.yaml
-- ^(.*/)?app\.yml
-- ^(.*/)?#.*#
-- ^(.*/)?.*~
-- ^(.*/)?.*\.py[co]
-- ^(.*/)?.*/RCS/.*
-- ^(.*/)?\..*
-- ^(.*/)?tests$
-- ^(.*/)?test$
-- ^test/(.*/)?
-- ^COPYING.LESSER
-- ^README\..*
-- \.gitignore
-- \.gitattributes
-- ^\.git/.*
-- \.*\.lint$
-- ^fabfile\.py
-- ^testrunner\.py
-- ^grunt\.js
-- ^gulpfile\.js
-- ^package\.json
-- ^node_modules/(.*/)?
-- ^gulp/(.*/)?
-- ^.sass-cache/(.*/)?
-- ^.tmp/(.*/)?
-- ^project/(.*/)?
-- \.editorconfig
-- \.jshintrc
