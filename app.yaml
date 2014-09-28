@@ -4,11 +4,12 @@ runtime: python27
 api_version: 1
 
 default_expiration: "1d"  
-threadsafe: yes
+threadsafe: no
 
 handlers:
 - url: /
-  script: main.py
+  static_files: static/index.html
+  upload: static/index.html
 
 - url: /(.*)
   static_files: static/\1
