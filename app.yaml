@@ -1,2 +1,3 @@
-- url: /
-  static_dir: static_files
+- url: /(.*)
+  static_files: \1
+  upload: (.*)
