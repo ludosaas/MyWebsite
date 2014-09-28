@@ -8,7 +8,6 @@ handlers:
 # re-direct to index.html if no path is give
 - url: /
   static_files: index.html
-  stati_dir: /
   upload: index.html
 
 # access the static resources in the root director
