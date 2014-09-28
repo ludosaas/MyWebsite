@@ -6,5 +6,5 @@ threadsafe: true
 
 handlers:
 - url: /
-  static_files: index.html
+  static_files: \1
   upload: index.html
