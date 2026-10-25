@@ -1,0 +1,92 @@
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/fraunces';
+
+:root {
+  --bg: #f7f5f0;
+  --surface: #ffffff;
+  --text: #1c1f24;
+  --muted: #5d636d;
+  --line: #e4e0d7;
+  --accent: #1d7fc4;
+  --accent-soft: #e3f0fa;
+  --font-sans: 'Inter Variable', system-ui, sans-serif;
+  --font-serif: 'Fraunces Variable', Georgia, serif;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111317;
+    --surface: #181b21;
+    --text: #e8e6e1;
+    --muted: #9aa0aa;
+    --line: #2a2e36;
+    --accent: #5db3ee;
+    --accent-soft: #16283a;
+    color-scheme: dark;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 2rem;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  line-height: 1.2;
+  margin: 0;
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

@@ -1,0 +1,525 @@
+---
+import '../styles/global.css';
+import {
+  profile,
+  about,
+  experience,
+  education,
+  languages,
+  skills,
+  contact,
+} from '../data/profile';
+
+const sections = [
+  { id: 'about', label: 'About' },
+  { id: 'experience', label: 'Experience' },
+  { id: 'education', label: 'Education' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'contact', label: 'Contact' },
+];
+
+const description = `${profile.name}, ${profile.role} at ${profile.company}, ${profile.location}.`;
+const year = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{profile.name} · {profile.role}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={profile.name} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href={Astro.site} />
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content={profile.name} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={Astro.site} />
+  </head>
+
+  <body>
+    <div class="layout">
+      <header class="intro">
+        <div class="intro-inner">
+          <img class="logo" src="/favicon.svg" alt="" width="44" height="44" />
+          <h1>{profile.name}</h1>
+          <p class="role">
+            {profile.role} at {profile.company}
+            <span class="place">{profile.location}</span>
+          </p>
+          <p class="tagline">{profile.tagline}</p>
+
+          <nav aria-label="Sections">
+            <ul class="nav">
+              {
+                sections.map((s) => (
+                  <li>
+                    <a href={`#${s.id}`} data-nav={s.id}>
+                      <span class="nav-line" />
+                      {s.label}
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </nav>
+
+          <ul class="quick-links">
+            {
+              contact
+                .filter((c) => ['LinkedIn', 'GitHub', 'Email'].includes(c.label))
+                .map((c) => (
+                  <li>
+                    <a href={c.href} rel="me noopener" target={c.href.startsWith('http') ? '_blank' : undefined}>
+                      {c.label}
+                    </a>
+                  </li>
+                ))
+            }
+          </ul>
+        </div>
+      </header>
+
+      <main>
+        <section id="about" aria-labelledby="about-title">
+          <h2 id="about-title">About</h2>
+          {about.map((p) => <p>{p}</p>)}
+        </section>
+
+        <section id="experience" aria-labelledby="experience-title">
+          <h2 id="experience-title">Experience</h2>
+          <ol class="timeline">
+            {
+              experience.map((job) => (
+                <li class="entry">
+                  <p class="period">{job.period}</p>
+                  <div>
+                    <h3>{job.title}</h3>
+                    <p class="where">
+                      {job.company} · {job.place}
+                    </p>
+                    {job.details.length > 0 && (
+                      <ul class="details">
+                        {job.details.map((d) => (
+                          <li>{d}</li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                </li>
+              ))
+            }
+          </ol>
+        </section>
+
+        <section id="education" aria-labelledby="education-title">
+          <h2 id="education-title">Education</h2>
+          <ol class="timeline">
+            {
+              education.map((e) => (
+                <li class="entry">
+                  <p class="period">{e.period}</p>
+                  <div>
+                    <h3>{e.title}</h3>
+                    <p class="where">{e.school}</p>
+                  </div>
+                </li>
+              ))
+            }
+          </ol>
+        </section>
+
+        <section id="skills" aria-labelledby="skills-title">
+          <h2 id="skills-title">Skills</h2>
+
+          <h3 class="sub">Languages</h3>
+          <ul class="languages">
+            {
+              languages.map((l) => (
+                <li>
+                  <span class="lang">{l.name}</span>
+                  <span class="level">{l.level}</span>
+                </li>
+              ))
+            }
+          </ul>
+
+          <h3 class="sub">Technical &amp; business</h3>
+          <dl class="skills">
+            {
+              skills.map((s) => (
+                <div class="skill-row">
+                  <dt>{s.group}</dt>
+                  <dd>
+                    <ul class="chips">
+                      {s.items.map((i) => (
+                        <li>{i}</li>
+                      ))}
+                    </ul>
+                  </dd>
+                </div>
+              ))
+            }
+          </dl>
+        </section>
+
+        <section id="contact" aria-labelledby="contact-title">
+          <h2 id="contact-title">Contact</h2>
+          <p>The best way to reach me is by email. I’m also happy to connect on LinkedIn.</p>
+          <ul class="cards">
+            {
+              contact.map((c) => (
+                <li>
+                  <a class="card" href={c.href} rel="me noopener" target={c.href.startsWith('http') ? '_blank' : undefined}>
+                    <span class="card-label">{c.label}</span>
+                    <span class="card-value">{c.value}</span>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+
+        <footer>
+          <p>© {year} {profile.name}</p>
+        </footer>
+      </main>
+    </div>
+
+    <script>
+      // Highlight the nav entry for the section currently in view.
+      const links = document.querySelectorAll<HTMLAnchorElement>('[data-nav]');
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            links.forEach((l) =>
+              l.classList.toggle('active', l.dataset.nav === entry.target.id),
+            );
+          }
+        },
+        { rootMargin: '-40% 0px -55% 0px' },
+      );
+      document.querySelectorAll('main section').forEach((s) => observer.observe(s));
+    </script>
+  </body>
+</html>
+
+<style>
+  .layout {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .intro {
+    padding: 4rem 0 2rem;
+  }
+
+  .logo {
+    display: block;
+    margin-bottom: 1.5rem;
+  }
+
+  h1 {
+    font-size: clamp(2.5rem, 7vw, 3.5rem);
+    letter-spacing: -0.02em;
+  }
+
+  .role {
+    margin: 0.75rem 0 0;
+    font-size: 1.15rem;
+    font-weight: 500;
+  }
+
+  .place {
+    display: block;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  .tagline {
+    margin-top: 1rem;
+    max-width: 24rem;
+    color: var(--muted);
+  }
+
+  .nav {
+    display: none;
+  }
+
+  .quick-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  main section {
+    padding: 2.5rem 0;
+    border-top: 1px solid var(--line);
+  }
+
+  h2 {
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  h3 {
+    font-family: var(--font-sans);
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1.75rem;
+  }
+
+  .entry {
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .period {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  .where {
+    margin: 0.15rem 0 0;
+    color: var(--muted);
+  }
+
+  .details {
+    margin-top: 0.5rem;
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .details li {
+    position: relative;
+    padding-left: 1.1rem;
+  }
+
+  .details li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.75em;
+    width: 0.45rem;
+    height: 2px;
+    background: var(--accent);
+  }
+
+  .sub {
+    margin: 0 0 0.75rem;
+    color: var(--muted);
+    font-size: 0.85rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  .languages {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .languages li {
+    padding: 0.85rem 1rem;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 0.75rem;
+  }
+
+  .lang {
+    display: block;
+    font-weight: 600;
+  }
+
+  .level {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  .skills {
+    margin: 0;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .skill-row {
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  dt {
+    font-weight: 600;
+  }
+
+  dd {
+    margin: 0;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .chips li {
+    padding: 0.2rem 0.75rem;
+    background: var(--accent-soft);
+    color: var(--text);
+    border-radius: 999px;
+    font-size: 0.9rem;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 1rem 1.1rem;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 0.75rem;
+    color: var(--text);
+    text-decoration: none;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .card-label {
+    color: var(--muted);
+    font-size: 0.8rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  .card-value {
+    font-weight: 500;
+    overflow-wrap: anywhere;
+  }
+
+  footer {
+    padding: 2rem 0 3rem;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  @media (min-width: 40rem) {
+    .layout {
+      padding: 0 2rem;
+    }
+
+    .entry {
+      grid-template-columns: 11rem 1fr;
+      gap: 1.5rem;
+    }
+
+    .period {
+      padding-top: 0.2rem;
+    }
+
+    .skill-row {
+      grid-template-columns: 11rem 1fr;
+      gap: 1.5rem;
+      align-items: baseline;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .layout {
+      display: grid;
+      grid-template-columns: 20rem 1fr;
+      gap: 5rem;
+    }
+
+    .intro {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 5rem 0;
+    }
+
+    .intro-inner {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .nav {
+      display: grid;
+      gap: 0.25rem;
+      margin-top: 3rem;
+    }
+
+    .nav a {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.35rem 0;
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .nav-line {
+      width: 2rem;
+      height: 1px;
+      background: currentColor;
+      transition: width 0.2s;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      color: var(--text);
+    }
+
+    .nav a:hover .nav-line,
+    .nav a.active .nav-line {
+      width: 4rem;
+      background: var(--accent);
+    }
+
+    .quick-links {
+      margin-top: auto;
+    }
+
+    main {
+      padding: 4rem 0 0;
+    }
+
+    main section:first-child {
+      border-top: 0;
+      padding-top: 1rem;
+    }
+  }
+</style>
